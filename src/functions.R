@@ -262,7 +262,47 @@ plsummerCounts <- summerCounts %>%
 ggplot(plsummerCounts, aes(x = year, y = count)) + 
   geom_line(aes(color = Sport, group = Sport)) +
   facet_wrap(~Sport) +
-  labs(y = "Number of Events", x = "Summer Olympic Years") +
-  theme(axis.text.x = element_blank())
+  labs(y = "Number of Events", x = paste0(strSeason," Olympic Years")) +
+  theme(axis.text.x = element_blank()) + 
+  #transition_states(Sport, transition_length = 3, state_length = 1) +
+  #enter_fade() + 
+  #exit_fade() +
+  # Don't include a legend
+  guides(colour=FALSE) 
 }
 
+sportTotalsAnimate<- function(strSeason){
+  Summer <- events %>% 
+    filter (Season == strSeason & Year > 1850)
+  
+  summerCounts <- Summer %>% 
+    group_by (Year,Sport) %>%
+    count(Sport) %>% 
+    arrange(Year, desc(n)) %>%
+    pivot_wider(values_from = n, names_from = Sport)
+  
+  summerCounts <- rotate_df(summerCounts)
+  #print.data.frame (summerCounts)
+  
+  #names(summerCounts)
+  names(summerCounts) <- as.character(unlist(summerCounts[1,]))
+  #names(summerCounts)
+  
+  summerCounts <- summerCounts[-1,]
+  #head(summerCounts)
+  
+  summerCounts <- tibble::rownames_to_column(summerCounts, "Sport")
+  plsummerCounts <- summerCounts %>% 
+    pivot_longer(!Sport, names_to = "year", values_to = "count")
+  
+  ggplot(plsummerCounts, aes(x = year, y = count)) + 
+    geom_line(aes(color = Sport, group = Sport)) +
+    #facet_wrap(~Sport) +
+    labs(y = "Number of Events", x = paste0(strSeason," Olympic Years")) +
+    #theme(axis.text.x = element_blank()) + 
+    transition_states(Sport, transition_length = 3, state_length = 1) +
+    enter_fade() + 
+    exit_fade() +
+    # Don't include a legend
+    guides(colour=FALSE) 
+}

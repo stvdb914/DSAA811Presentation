@@ -230,6 +230,7 @@ shinyApp(
 ## Sporting Trends
 
 ```{r warnings = FALSE, echo = FALSE}
+# The animation works, but it is not contained in the slides
 shinyApp(
   ui = fluidPage(
   "Choose the Olympics and Year",
