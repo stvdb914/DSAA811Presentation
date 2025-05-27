@@ -240,10 +240,20 @@ shinyApp(
       selectInput("region", "Olympics:",
                     choices = levels(SummerOrWinter), selected = "Summer")),
     fluidRow(plotOutput("Winners")),
-    fluidPage(plotOutput("Win"))),
+    fluidPage(plotlyOutput("Win"))),
   server = function(input,output, session) {
     output$Winners = renderPlot(sportTotals(input$region))
-    output$Win = renderPlot(sportTotalsAnimate(input$region))
+    output$Win = renderPlotly({p <- sportTotalsAnimate(input$region)
+                              p <- ggplotly(p, height = 1200, width = 900)
+                              p %>%
+        animation_opts(frame = 200,
+                       easing = "linear",
+                       redraw = TRUE)})
+    #output$Win = renderPlot(ggplotly(sportTotalsAnimate(input$region),
+                      #height = 900, width = 700) %>%
+                      #animation_opts(frame = 200,
+                      # easing = "linear",
+                      #redraw = FALSE))
   } 
 )
 ```

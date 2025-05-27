@@ -295,17 +295,19 @@ sportTotalsAnimate<- function(strSeason){
   plsummerCounts <- summerCounts %>% 
     pivot_longer(!Sport, names_to = "year", values_to = "count")
   
-  ggplot(plsummerCounts, aes(x = year, y = count)) + 
+  p <- ggplot(plsummerCounts, aes(x = year, y = count)) + 
     geom_line(aes(color = Sport, group = Sport)) +
-    #facet_wrap(~Sport) +
+    facet_wrap(~Sport) +
     labs(title = "{closest_state}", y = "Number of Events", x = paste0(strSeason," Olympic Years")) +
-    #theme(axis.text.x = element_blank()) + 
-    transition_states(Sport, transition_length = 4, state_length = 1) +
+    theme(axis.text.x = element_blank()) + 
+    #transition_states(Sport, transition_length = 4, state_length = 1) +
     labs(y = "Number of Events", x = paste0(strSeason," Olympic Years")) +
     #theme(axis.text.x = element_blank()) + 
-    transition_states(Sport, transition_length = 3, state_length = 1) +
-    enter_fade() + 
-    exit_fade() +
+    #transition_states(Sport, transition_length = 3, state_length = 1) +
+    #enter_fade() + 
+    #exit_fade() +
     # Don't include a legend
     guides(colour=FALSE) 
+  
+  return (p)
 }
