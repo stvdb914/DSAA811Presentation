@@ -39,6 +39,7 @@ library(magrittr)
 library(shiny)
 library(gganimate)
 library(DT)
+library(plotly)
 library(gapminder)
 ```
 
@@ -229,18 +230,19 @@ shinyApp(
 
 ## Sporting Trends
 
-```{r warnings = FALSE, echo = FALSE}
+```{r animation.hook="gifski", warnings = FALSE, echo = FALSE}
+# The animation works, but it is not contained in the slides
 shinyApp(
   ui = fluidPage(
   "Choose the Olympics and Year",
-  sidebarLayout(
-    sidebarPanel(
+    fluidRow(
       selectInput("region", "Olympics:",
                     choices = levels(SummerOrWinter), selected = "Summer")),
-      mainPanel(plotOutput("Winners")))
-    ),
+    fluidRow(plotOutput("Winners")),
+    fluidPage(plotOutput("Win"))),
   server = function(input,output, session) {
     output$Winners = renderPlot(sportTotals(input$region))
+    output$Win = renderPlot(sportTotalsAnimate(input$region))
   } 
 )
 ```
