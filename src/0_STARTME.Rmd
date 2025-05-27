@@ -231,6 +231,7 @@ shinyApp(
 ## Sporting Trends
 
 ```{r animation.hook="gifski", warnings = FALSE, echo = FALSE}
+
 # The animation works, but it is not contained in the slides
 shinyApp(
   ui = fluidPage(

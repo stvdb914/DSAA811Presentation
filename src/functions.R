@@ -301,6 +301,9 @@ sportTotalsAnimate<- function(strSeason){
     labs(title = "{closest_state}", y = "Number of Events", x = paste0(strSeason," Olympic Years")) +
     #theme(axis.text.x = element_blank()) + 
     transition_states(Sport, transition_length = 4, state_length = 1) +
+    labs(y = "Number of Events", x = paste0(strSeason," Olympic Years")) +
+    #theme(axis.text.x = element_blank()) + 
+    transition_states(Sport, transition_length = 3, state_length = 1) +
     enter_fade() + 
     exit_fade() +
     # Don't include a legend
